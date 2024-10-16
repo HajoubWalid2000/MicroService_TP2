@@ -44,7 +44,7 @@ public class Oauth2_controller {
         Instant instant = Instant.now();
         // recupérer Scopes de l'utilisateur
 
-        String scopes =  authenticate.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
+        String scope =  authenticate.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
 
         JwtClaimsSet jwtClaimsSet_Access_token =  JwtClaimsSet.builder()
                 .issuer("MS_sec")
@@ -52,7 +52,7 @@ public class Oauth2_controller {
                 .issuedAt(instant)
                 .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
                 .claim("name",authenticate.getName())
-                .claim("SCOPE",scopes)
+                .claim("scope",scope)
                 .build();
         // Signée le token
         String Access_Token = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_Access_token)).getTokenValue();
@@ -95,7 +95,7 @@ public class Oauth2_controller {
         Instant instant = Instant.now();
         // recup Scopes
 
-        String scopes =  userDetails.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
+        String scope =  userDetails.getAuthorities().stream().map(auth -> auth.getAuthority()).collect(Collectors.joining(" "));
 
         JwtClaimsSet jwtClaimsSet_Access_token =  JwtClaimsSet.builder()
                 .issuer("MS_sec")
@@ -103,7 +103,7 @@ public class Oauth2_controller {
                 .issuedAt(instant)
                 .expiresAt(instant.plus(2, ChronoUnit.MINUTES))
                 .claim("name",userDetails.getUsername())
-                .claim("SCOPE",scopes)
+                .claim("scope",scope)
                 .build();
         String Access_Token = jwtEncoder.encode(JwtEncoderParameters.from(jwtClaimsSet_Access_token)).getTokenValue();
 
